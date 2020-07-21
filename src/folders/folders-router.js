@@ -22,7 +22,6 @@ foldersRouter
       .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
-    //DO THESE VARIABLES NEED TO MATCH MY DB? AS IN folder_name
     const { folder_name } = req.body;
     const newFolder = { folder_name };
 
@@ -31,4 +30,13 @@ foldersRouter
         error: { message: "Folder name is required." },
       });
     }
+
+    FoldersService.insertFolder(knexInstance, newFolder)
+      .then((folder) => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${folder.id}`))
+          .json(serializeFolder(folder));
+      })
+      .catch(next);
   });
