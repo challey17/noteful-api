@@ -5,3 +5,5 @@ CREATE TABLE noteful_notes (
     modified TIMESTAMPTZ DEFAULT now() NOT NULL,
     folderId INTEGER REFERENCES noteful_folders(id) ON DELETE CASCADE NOT NULL
 );
+-- postgres turns folderId into folderid (all lowercase)
+--make sure client side matches
